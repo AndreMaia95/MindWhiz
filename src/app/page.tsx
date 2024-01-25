@@ -66,6 +66,7 @@ export default function Home() {
   const [randomCountry, setRandomCountry] = useState<string>("");
   const [revealedLetters, setRevealedLetters] = useState<boolean[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   //Escolher um país aleatório que esteja no array
   useEffect(() => {
@@ -98,7 +99,7 @@ export default function Home() {
     if (inputValue === randomCountry) {
       setRevealedLetters(new Array(randomCountry.length).fill(true));
       setTimeout(() => {
-        openModal();
+        setOpenModal(true);
       }, 300);
     }
 
@@ -113,8 +114,8 @@ export default function Home() {
     }
   };
 
-  const openModal = () => {
-    alert("Parabéns, você acertou!");
+  const onModalClose = () => {
+    setOpenModal(false);
     window.location.reload();
   };
 
@@ -152,6 +153,17 @@ export default function Home() {
           </button>
         </div>
       </div>
+      {openModal && (
+        <div className="absolute w-full h-screen flex flex-col items-center justify-center bg-black opacity-80">
+          <p className="text-white text-7xl font-bold">Well Done!</p>
+          <button
+            onClick={onModalClose}
+            className="text-white mt-10 rounded-md border-2 border-white px-6 py-5"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      )}
     </main>
   );
 }
